@@ -5,8 +5,9 @@ from order import views
 
 
 router = routers.DefaultRouter()
-router.register(r'orders', views.OrderViewSet)
+# router.register(r'orders', views.OrderViewSet)
 urlpatterns = [
     path('', include(router.urls)),
-    
+    path("orders/", views.OrderViewSet.as_view()),
+    path("orders/<int:pk>/", views.OrderViewSet.as_view()),
 ]

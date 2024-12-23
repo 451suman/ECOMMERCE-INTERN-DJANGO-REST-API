@@ -13,5 +13,6 @@ urlpatterns = [
     path("registration/", views.RegisterViewset.as_view(), name="registration"),
     path("customers/",views.CustomerViewSet.as_view(), name="customer"),
     path("customers/<int:pk>",views.CustomerViewSet.as_view(), name="customer"),
+    path("customers-self-detail/",views.CustomSelfDetailViewSet.as_view())
     
 ]
