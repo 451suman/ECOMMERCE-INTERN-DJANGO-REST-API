@@ -4,7 +4,35 @@ from category.serializers import CategorySerializer
 
 
 
-class ProductReadSerializer(serializers.ModelSerializer):
+# class ProductReadSerializer(serializers.ModelSerializer):
+#     category = CategorySerializer()
+#     class Meta:
+#         model = Product
+#         fields = [
+#             "id",
+#             "name",
+#             "category",
+#             "description",
+#             "price",
+#             "image",
+#         ]
+#         read_only_fields = fields
+
+
+
+# class ProductWriteSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Product
+#         fields = [
+#             "name",
+#             "category",
+#             "description",
+#             "price",
+#             "image",
+#         ]
+
+
+class ProductSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
     class Meta:
         model = Product
@@ -16,18 +44,3 @@ class ProductReadSerializer(serializers.ModelSerializer):
             "price",
             "image",
         ]
-        read_only_fields = fields
-
-
-
-class ProductWriteSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Product
-        fields = [
-            "name",
-            "category",
-            "description",
-            "price",
-            "image",
-        ]
-
