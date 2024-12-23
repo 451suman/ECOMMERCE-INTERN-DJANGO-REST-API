@@ -2,22 +2,39 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from user.models import Customer
 from user.serializers import CustomerSerializer, RegistrationSerializer
-from rest_framework import viewsets,permissions
+from rest_framework import viewsets,permissions,status
 from rest_framework.response import Response
 # Create your views here.
 
-class CustomerViewSet(viewsets.ModelViewSet):
-    serializer_class = CustomerSerializer
-    queryset = Customer.objects.all()
-    permission_classes = [permissions.IsAuthenticated]
+# class CustomerViewSet(viewsets.ModelViewSet):
+#     serializer_class = CustomerSerializer
+#     queryset = Customer.objects.all()
+#     permission_classes = [permissions.IsAuthenticated]
 
-    def get_permissions(self):
-        if self.action == "create":
-            return (permissions.AllowAny(),) 
-        elif self.action in ['list','retrieve']:
-            return (permissions.IsAdminUser(),)
+#     def get_permissions(self):
+#         if self.action == "create":
+#             return (permissions.AllowAny(),) 
+#         elif self.action in ['list','retrieve']:
+#             return (permissions.IsAdminUser(),)
     
-        return super().get_permissions()
+#         return super().get_permissions()
+    
+
+
+class CustomerViewSet(APIView):
+    permission_classes = [permissions.IsAdminUser]
+
+    def get(self, request, pk= None):
+        if pk:
+            try:
+                customer = Customer.objects.get(pk = pk)
+            except Customer.DoesNotExist:
+                return Response({"messages":"User not found"}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            customer = Customer.objects.all().order_by("-id")
+            serializer = CustomerSerializer(customer, many= True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
     
 
 class RegisterViewset(APIView):
