@@ -26,3 +26,6 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.order.user} - {self.product} - {self.quantity} - {self.unit_price}"
+
+
+    

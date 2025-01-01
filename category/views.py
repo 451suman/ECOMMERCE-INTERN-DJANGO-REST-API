@@ -81,3 +81,16 @@ class CategoryViewSet(APIView):
         
         category.delete()
         return Response({"message": "Category deleted"}, status=status.HTTP_204_NO_CONTENT)
+
+    def patch(Self,request, pk):
+        try :
+            category = Category.objects.get(pk=pk)
+        except Category.DoesNotExist:
+            return Response({"error": "Category Not Found"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        serializer = CategorySerializer(category, data=request.data, partial= True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response({"error": "partial update  Failed"}, status=status.HTTP_400_BAD_REQUEST)

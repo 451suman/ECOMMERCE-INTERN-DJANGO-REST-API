@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from product.models import Product
-from product.serializers import ProductWriteSerializer, ProductReadSerializer
+from product.serializers import ProductSerializer, ProductReadSerializer
+# from product.serializers import ProductWriteSerializer, ProductReadSerializer
 from rest_framework import viewsets, permissions, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -57,7 +58,7 @@ class ProductViewset(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
-        serializer = ProductWriteSerializer(data=request.data)
+        serializer = ProductSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -72,7 +73,7 @@ class ProductViewset(APIView):
                 {"message": "Product not Found"}, status=status.HTTP_404_NOT_FOUND
             )
 
-        serializer = ProductWriteSerializer(product, data=request.data)
+        serializer = ProductSerializer(product, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -83,7 +84,7 @@ class ProductViewset(APIView):
             product =Product.objects.get(pk=pk)
         except Product.DoesNotExist:
             return Response({"message":"product not found"},status=status.HTTP_404_NOT_FOUND)
-        serializer = ProductWriteSerializer(product, data=request.data, partial=True)
+        serializer = ProductSerializer(product, data=request.data, partial=True)
 
         if serializer.is_valid():
             serializer.save()
