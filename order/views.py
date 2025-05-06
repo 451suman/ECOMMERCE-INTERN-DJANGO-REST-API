@@ -6,6 +6,8 @@ from order.serializers import (
     OrderReadserializer,
     OrderWriteserializer,
 )
+from rest_framework.generics import ListAPIView
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -135,14 +137,12 @@ class OrderViewSet(APIView):
                 }
             )
 
+class GetSelfCustomerOrder(ListAPIView):
+    model = Order
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = OrderReadserializer
 
-
-
-
-
-# order_items = OrderItem.objects.filter(order=pk)
-
-                # Calculate total amount for the order
-                # total_amount = order_items.aggregate(
-                #     total_amount=Sum(F('unit_price') * F('quantity'))
-                # )['total_amount'] 
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)
+    
+    

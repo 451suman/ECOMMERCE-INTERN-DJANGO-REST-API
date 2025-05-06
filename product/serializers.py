@@ -55,3 +55,16 @@ class ProductSerializer(serializers.ModelSerializer):
 
         product = Product.objects.create(**validated_data)
         return product
+
+
+
+# class ProductWriteSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Product
+#         fields = [
+#             "name",
+#             "category",
+#             "description",
+#             "price",
+#             "image",
+#         ]

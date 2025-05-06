@@ -13,4 +13,6 @@ urlpatterns = [
 
     path("order-items/", views.OrderItemViewSet.as_view()),
     path("order-items/<int:pk>/", views.OrderItemViewSet.as_view()),
+
+    path("get-self-order/", views.GetSelfCustomerOrder.as_view()),
 ]
